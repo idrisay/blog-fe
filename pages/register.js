@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from 'react-toastify';
 
 const Registration = () => {
   const [info, setInfo] = useState({
@@ -9,26 +10,17 @@ const Registration = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
+  
   const handleChange = (e) => {
-    // setEmail(e.target.value);
-    console.log(e.target.id);
-    console.log(e.target.value);
     setInfo({ ...info, [e.target.id]: e.target.value });
   };
-  console.log({ info });
 
   const handleSubmit = async (e) => {
-    console.log("------------");
     e.preventDefault();
     // Handle form submission logic here, such as calling an API to create a new account
     let errors = validateInfo(info);
     setErrors(validateInfo(info));
-    console.log({ errors });
-    // if(Object.keys(errors).length !== 0){
-    console.log("if");
+    if(Object.keys(errors).length === 0){
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({
@@ -46,26 +38,13 @@ const Registration = () => {
     };
     const url = "http://localhost:3005/auth/register";
     fetch("http://localhost:3005/auth/register", requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => response.json())
+      .then((result) => {
+        toast(result?.message)
+      })
       .catch((error) => console.log("error", error));
-    // const response = await fetch(url, {
-    //     method: 'POST',
-    //     mode: 'no-cors',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         firstName: info.firstName,
-    //         lastName: info.lastName,
-    //         email: info.email,
-    //         password: info.password,
-    //     })
-    //   });
-    // const response = await postData(info, url);
-    // console.log({ response });
 
-    // }
+    }
   };
 
   return (
@@ -196,17 +175,4 @@ function validateInfo(info) {
   }
 
   return errors;
-}
-
-async function postData(data, url) {
-  const response = await fetch(url, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  console.log(response);
-  return response.json();
 }
