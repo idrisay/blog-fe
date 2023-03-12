@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+
+const BACKEND_URL= process.env.BACKEND_URL
 
 const Registration = () => {
   const [info, setInfo] = useState({
@@ -10,7 +12,7 @@ const Registration = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
-  
+
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.id]: e.target.value });
   };
@@ -20,30 +22,29 @@ const Registration = () => {
     // Handle form submission logic here, such as calling an API to create a new account
     let errors = validateInfo(info);
     setErrors(validateInfo(info));
-    if(Object.keys(errors).length === 0){
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      email: info.email,
-      password: info.password,
-      firstName: info.firstName,
-      lastName: info.lastName,
-    });
+    if (Object.keys(errors).length === 0) {
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      var raw = JSON.stringify({
+        email: info.email,
+        password: info.password,
+        firstName: info.firstName,
+        lastName: info.lastName,
+      });
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-    const url = "http://localhost:3005/auth/register";
-    fetch("http://localhost:3005/auth/register", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        toast(result?.message)
-      })
-      .catch((error) => console.log("error", error));
-
+      var requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
+      fetch(`${BACKEND_URL}auth/register`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          localStorage.setItem("access_token", result.token)
+          toast(result?.message);
+        })
+        .catch((error) => console.log("error", error));
     }
   };
 

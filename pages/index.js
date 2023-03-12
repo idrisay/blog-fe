@@ -1,6 +1,12 @@
 import Head from "next/head";
 
 export default function Home() {
+  fetch("http://localhost:3005/auth/login")
+    .then((response) => {
+      console.log(response);
+      return response.json();
+    })
+    .then((data) => console.log("DATA", data));
 
   return (
     <>
