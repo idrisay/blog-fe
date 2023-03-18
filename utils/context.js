@@ -11,7 +11,7 @@ export function AppWrapper({ children }) {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    fetch("http://localhost:3005/auth/check-login", {
+    fetch(`${process.env.BACKEND_URL}auth/check-login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

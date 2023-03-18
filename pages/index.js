@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useAppContext } from '../utils/context';
+import Blogs from '../components/blogs'
 
 export default function Home() {
  
@@ -17,6 +18,7 @@ export default function Home() {
       </Head>
       <main>
         <div>Welcome to blog app.</div>
+        <Blogs/>
       </main>
     </>
   );
