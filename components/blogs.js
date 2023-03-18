@@ -1,5 +1,6 @@
 import { callAPI } from "@/utils/api";
 import React, { useEffect, useState } from "react";
+import BlogCard from "./BlogCard";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState();
@@ -30,9 +31,11 @@ const Blogs = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      {blogs?.map((blog) => (
-        <div key={blog._id}>{blog.title}</div>
-      ))}
+      <div className="max-w-5xl mx-auto">
+        {blogs?.map((blog) => (
+          <BlogCard key={blog._id} blog={blog} />
+        ))}
+      </div>
     </div>
   );
 };
