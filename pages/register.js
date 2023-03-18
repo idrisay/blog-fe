@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
-const BACKEND_URL= process.env.BACKEND_URL
+const BACKEND_URL = process.env.BACKEND_URL;
 
 const Registration = () => {
   const [info, setInfo] = useState({
@@ -12,6 +12,18 @@ const Registration = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [bgImage, setBgImage] = useState("");
+
+  useEffect(() => {
+    async function fetchBgImage() {
+      const response = await fetch(
+        // "https://source.unsplash.com/random/1600x900"
+        "https://source.unsplash.com/random/1600x900/?nature"
+      );
+      setBgImage(response.url);
+    }
+    fetchBgImage();
+  }, []);
 
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.id]: e.target.value });
@@ -20,7 +32,7 @@ const Registration = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here, such as calling an API to create a new account
-    let errors = validateInfo(info);
+    // let errors = validateInfo(info);
     setErrors(validateInfo(info));
     if (Object.keys(errors).length === 0) {
       var myHeaders = new Headers();
@@ -41,7 +53,7 @@ const Registration = () => {
       fetch(`${BACKEND_URL}auth/register`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          localStorage.setItem("access_token", result.token)
+          localStorage.setItem("access_token", result.token);
           toast(result?.message);
         })
         .catch((error) => console.log("error", error));
@@ -49,10 +61,13 @@ const Registration = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{ backgroundImage: `url(${bgImage})`, backgroundSize: "cover" }}
+    >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm mx-auto border-2 p-4 rounded-md shadow-md hover:shadow-none"
+        className="w-full bg-white max-w-sm mx-auto border-2 p-4 rounded-md shadow-md hover:shadow-none"
       >
         <div className="mb-4">
           <label
