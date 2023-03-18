@@ -1,12 +1,11 @@
 import Head from "next/head";
+import { useAppContext } from '../utils/context';
 
 export default function Home() {
-  fetch("http://localhost:3005/auth/login")
-    .then((response) => {
-      console.log(response);
-      return response.json();
-    })
-    .then((data) => console.log("DATA", data));
+ 
+
+    const mycontext = useAppContext();
+  console.log({mycontext})
 
   return (
     <>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import{validateLogin} from '../utils/functions.js'
 import { toast } from "react-toastify";
+import { useRouter } from 'next/router'
 
 function Login() {
+  const router = useRouter()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [bgImage, setBgImage] = useState("");
@@ -39,13 +41,12 @@ function Login() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
           },
           body: JSON.stringify({email,password }),
         } ).then((res) => {
           return res.json()
         }).then((json) => {
-          console.log({json})
+          router.push('/')
           toast(json?.message);
         }).catch((err) => {
           console.log({err})
