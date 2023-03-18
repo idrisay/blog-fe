@@ -1,12 +1,11 @@
 import Head from "next/head";
-import { useAppContext } from '../utils/context';
+// import { useAppContext } from '../utils/context';
 import Blogs from '../components/blogs'
 
 export default function Home() {
  
 
-    const mycontext = useAppContext();
-  console.log({mycontext})
+    // const mycontext = useAppContext();
 
   return (
     <>

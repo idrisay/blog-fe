@@ -5,7 +5,6 @@ let access_token;
 if (typeof window !== "undefined") {
   access_token = window.localStorage.getItem("access_token");
 }
-console.log(access_token);
 
 export function AppWrapper({ children }) {
   const [user, setUser] = useState();

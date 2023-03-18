@@ -14,3 +14,25 @@ export const validateLogin = (info) => {
 
   return errors;
 };
+
+export const validateBlog = (blog) => {
+  let error = {};
+  if (!blog?.title) {
+    error.title = "Provide a title";
+  }
+  if (!blog?.tags) {
+    error.tags = "Provide a tags";
+  }
+  if (!stripHTML(blog?.body)) {
+    error.body = "Provide a body";
+  }
+  if (!blog.author) {
+    error.id = "Provide a id";
+  }
+  return error;
+};
+
+export const stripHTML = (html) => {
+  let stripped = html.replace(/(<([^>]+)>)/gi, "");
+  return stripped;
+};
